@@ -150,6 +150,7 @@
        01  Flags-n-Switches.
            05 More-Data              PIC X Value 'Y'.
            05 First-Run              PIC X Value 'Y'.
+           05 Valid-WH               PIC X Value 'Y'.
 
        01  Total-Fields.
            05 Grand-Total            PIC S9(9)v99 Value ZERO.
@@ -162,6 +163,7 @@
            05 WH-Hold                PIC X(4).
            05 Vendor-Hold            PIC X.
            05 Product-Hold           PIC X(3).
+           05 T-T                    PIC S9(7)v99.
 
        01  Misc.
            05 Proper-Spacing         PIC 9.
@@ -185,7 +187,7 @@
            05  Vendor-Item Occurs 7 Times
                Indexed by Vendor-Index.
                10 Vendor-Key         PIC X.
-               10 Vendor-Name        PIC X(12).
+               10 VI-Vendor-Name     PIC X(12).
 
 
 
@@ -208,7 +210,7 @@
            05                    PIC X(16) Value 'INVENTORY REPORT'.
            05                    PIC X(8) Value SPACES.
            05                    PIC X(6) Value 'PAGE: '.
-           05 H2-PageNum         PIC 99 .
+           05 H2-PageNum         PIC 99 Value ZERO.
 
        01  Warehouse-Heading.
            05                    PIC XX Value SPACES.
@@ -291,8 +293,10 @@
        
        100-Main-Function.
            PERFORM 125-MergeSort-Function
-           PERFORM 1000-End-Function
            PERFORM 200-Housekeeping
+           PERFORM 300-Read-File
+           PERFORM 600-Print-Grand-Total
+           PERFORM 1000-End-Function
            .
       * Sorts all 3 file, then merges them.
        125-MergeSort-Function.
@@ -324,7 +328,7 @@
             USING Sorted-File1, Sorted-File2, Sorted-File3
             GIVING Merged-File
             .
-
+      * Opens the files, gets the date, moves the date to heading 2.
        200-Housekeeping.
            OPEN INPUT Merged-File
            OPEN OUTPUT Inventory-Report
@@ -334,6 +338,244 @@
            MOVE WS-Day TO H2-Day
            MOVE WS-Year TO H2-Year
            .
+      * Writes the page headings to the top of every page.
+       225-Page-Headings.
+            ADD 1 To H2-PageNum
+            WRITE Report-Line From Heading-One
+               After Advancing PAGE
+            MOVE 1 To Proper-Spacing
+            WRITE Report-Line From Heading-Two
+                After Advancing Proper-Spacing
+            .
+      * Writes the warehouse heading.
+       250-Print-Warehouse.
+           MOVE WH-Hold to WHID-Heading
+           MOVE 2 To Proper-Spacing
+           WRITE Report-Line From Warehouse-Heading
+               After Advancing Proper-Spacing
+            MOVE 2 to Proper-Spacing
+           .
+      * Gets the vendor's full name by searching the table, writes 
+      * the vendor heading.
+       275-Print-Vendor.
+            MOVE 1 to Vendor-Index
+
+            SEARCH Vendor-Table
+                AT END
+                    STRING 'INVALID' DELIMITED BY ' '
+                               ' ' DELIMITED BY SIZE
+                            Vendor-Hold DELIMITED BY SIZE
+                            INTO VH-Vendor
+                    END-STRING
+                WHEN Vendor-Hold = Vendor-Key(Vendor-Index)
+                   MOVE VI-Vendor-Name(Vendor-Index) To VH-Vendor
+            END-SEARCH
+
+            WRITE Report-Line from Vendor-Heading
+               After Advancing Proper-Spacing
+            MOVE 2 to Proper-Spacing
+            .
+
+       280-Print-Detail-Headings.
+           WRITE Report-Line from Detail-Heading-One
+               After Advancing Proper-Spacing
+            MOVE 1 to Proper-Spacing
+            Write Report-Line From Detail-Heading-Two
+                After Advancing Proper-Spacing
+            Move 2 to Proper-Spacing
+            .
+                
+      * Reads the file line by line and calls the function to process
+      * the data.
+       300-Read-File.
+            PERFORM UNTIL More-Data = 'N'
+                READ Merged-File
+                    AT END
+                       MOVE 'N' to More-Data
+                    NOT AT END
+                        PERFORM 400-Process-File
+                END-READ
+            END-PERFORM
+            .
+
+       400-Process-File.
+      * If the previous line didn't have a valid warehouse id, moves the
+      * warehouse id from the current line to the warehouse hold.
+            IF Valid-WH = 'N' then
+                MOVE MR-WHID TO WH-Hold
+            END-IF
+      * Validates the warehouse id.
+            EVALUATE TRUE
+                WHEN MR-WHID  = 'CA20'
+                   MOVE 'Y' to Valid-WH
+                WHEN MR-WHID = 'NV10'
+                    MOVE 'Y' to Valid-WH
+                WHEN MR-WHID = 'WA30'
+                    MOVE 'Y' to Valid-WH
+                WHEN OTHER
+                    MOVE 'N' to Valid-WH
+            END-EVALUATE
+      * Checks if it's the first run or if the warehouse/vendor/product
+      * has changed and breaks if it has.
+            IF Valid-WH = 'Y'
+                EVALUATE TRUE
+                    WHEN First-Run = 'Y'
+                        MOVE 'N' To First-Run
+                        MOVE MR-WHID to WH-Hold
+                        MOVE MR-Vendor to Vendor-Hold
+                        MOVE MR-Product to Product-Hold
+                        PERFORM 225-Page-Headings
+                        PERFORM 250-Print-Warehouse
+                        PERFORM 275-Print-Vendor
+                        PERFORM 280-Print-Detail-Headings
+                    WHEN WH-Hold NOT = MR-WHID
+                       PERFORM 500-Warehouse-Break
+                       MOVE MR-WHID to WH-Hold
+                       MOVE MR-Vendor to Vendor-Hold
+                       MOVE MR-Product to Product-Hold
+                       PERFORM 225-Page-Headings
+                       PERFORM 250-Print-Warehouse
+                       PERFORM 275-Print-Vendor
+                       PERFORM 280-Print-Detail-Headings
+                    WHEN Vendor-Hold NOT = MR-Vendor
+                       PERFORM 525-Vendor-Break
+                       MOVE MR-Vendor to Vendor-Hold
+                       MOVE MR-Product to Product-Hold
+                       PERFORM 275-Print-Vendor
+                       PERFORM 280-Print-Detail-Headings
+                    WHEN Product-Hold NOT = MR-Product
+                       PERFORM 550-Product-Break
+                       MOVE MR-Product to Product-Hold
+                       PERFORM 280-Print-Detail-Headings
+                    END-EVALUATE
+
+                    MOVE 1 to Sub
+
+                    PERFORM UNTIL Sub > 5
+      * Validates that the input isn't blank
+                        IF MRD-Stock NOT = SPACES then
+      * Only prints the product name once for each product
+                            IF Sub = 1 then
+                               MOVE MRD-Name(Sub) to DL-Prod-Name
+                            ELSE
+                                MOVE SPACES to DL-Prod-Name
+                            END-IF
+      * Validates/expands the size.
+                            EVALUATE TRUE
+                                WHEN MRD-Size(Sub) = 'X'
+                                    MOVE 'Extra Large' to DL-Size
+                                WHEN MRD-Size(Sub) = 'L'
+                                    MOVE 'Large' to DL-Size
+                                WHEN MRD-Size(Sub) = 'M'
+                                    MOVE 'Medium' to DL-Size
+                                WHEN MRD-Size(Sub) = 'S'
+                                    MOVE 'Small' to DL-Size
+                                WHEN MRD-Size(Sub) = 'A'
+                                    MOVE 'Sample' to DL-Size
+                                WHEN OTHER
+                                    STRING 'BAD' DELIMITED BY ' '
+                                            ' ' DELIMITED BY SIZE
+                                        MRD-Size(Sub) DELIMITED BY SIZE
+                                        INTO DL-Size
+                                    END-STRING
+                            END-EVALUATE
+      * Validates/expands the type.
+                            EVALUATE TRUE
+                                WHEN MRD-Type(Sub) = 'C'
+                                    MOVE 'Cream' to DL-Type
+                                WHEN MRD-Type(Sub) = 'O'
+                                    MOVE 'Oil' to DL-Type
+                                WHEN OTHER
+                                    STRING 'BAD' DELIMITED BY ' '
+                                            ' ' DELIMITED BY SIZE
+                                        MRD-Type(Sub) DELIMITED BY SIZE
+                                        INTO DL-Size
+                                    END-STRING
+                            END-EVALUATE
+      * Validates the stock and price and adds them to the totals.
+                            IF (MRD-Price(Sub) IS NUMERIC) then
+                                IF (MRD-Stock(Sub) IS NUMERIC) then
+                                 MOVE MRD-Stock(Sub) to DL-Stock
+                                 COMPUTE T-T = MRD-Price(Sub) * MRD-Stock(Sub)
+                                 MOVE T-T to DL-Cost
+                                 ADD T-T to Grand-Total
+                                 ADD T-T to WH-Total
+                                 ADD T-T to Vendor-Total
+                                 ADD T-T to Prod-Total
+                                 MOVE ZEROS to T-T
+
+                                ELSE
+                                    MOVE ZEROS to DL-Stock
+                                    MOVE ZEROS to DL-Cost
+                                END-IF
+                            ELSE
+                                MOVE ZEROS to DL-Stock
+                                MOVE ZEROS to DL-Cost
+                            END-IF
+
+                            WRITE Report-Line from Detail-Line
+                               After Advancing Proper-Spacing
+                            MOVE 1 to Proper-Spacing      
+
+                        END-IF
+                        ADD 1 to Sub
+                    END-PERFORM                  
+            ELSE 
+                ADD 1 to Error-Total
+                WRITE Error-Line from Merged-Record
+            END-IF
+            .
+            
+       500-Warehouse-Break.
+           PERFORM 525-Vendor-Break
+           MOVE WH-Hold to WTL-ID
+           MOVE WH-Total to WTL-Cost
+           WRITE Report-Line from Warehouse-Total-Line
+               After Advancing Proper-Spacing
+            MOVE 2 to Proper-Spacing
+            MOVE ZEROS to WH-Total
+            .
+
+       525-Vendor-Break.
+            PERFORM 550-Product-Break
+            MOVE 1 to Vendor-Index
+
+            SEARCH Vendor-Table
+                AT END
+                    STRING 'INVALID' DELIMITED BY ' '
+                               ' ' DELIMITED BY SIZE
+                            Vendor-Hold DELIMITED BY SIZE
+                            INTO VTL-Name
+                    END-STRING
+                WHEN Vendor-Hold = Vendor-Key(Vendor-Index)
+                   MOVE VI-Vendor-Name(Vendor-Index) To VTL-Name
+            END-SEARCH
+
+            MOVE Vendor-Total to VTL-Cost
+            WRITE Report-Line from Vendor-Total-Line
+                After Advancing Proper-Spacing
+            MOVE 2 to Proper-Spacing
+            MOVE ZEROS to Vendor-Total
+            .
+
+       550-Product-Break.
+            MOVE Product-Hold to PTL-Name
+            MOVE Prod-Total to PTL-Cost
+            MOVE 2 to Proper-Spacing
+            WRITE Report-Line from Product-Total-Line
+                After Advancing Proper-Spacing
+            MOVE 3 to Proper-Spacing
+            MOVE ZEROS to Prod-Total
+            .
+
+       600-Print-Grand-Total.
+           PERFORM 500-Warehouse-Break
+           MOVE Grand-Total to GTL-Cost
+           WRITE Report-Line From Grand-Total-Line
+               After Advancing Proper-Spacing
+            DISPLAY 'There were ' Error-Total 'error(s) in the input'
+            .
+                
 
        1000-End-Function.
            CLOSE Merged-File
