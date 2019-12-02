@@ -525,7 +525,7 @@
                 WRITE Error-Line from Merged-Record
             END-IF
             .
-            
+      * Calls the vendor break and prints the warehouse total.    
        500-Warehouse-Break.
            PERFORM 525-Vendor-Break
            MOVE WH-Hold to WTL-ID
@@ -535,7 +535,7 @@
             MOVE 2 to Proper-Spacing
             MOVE ZEROS to WH-Total
             .
-
+      * Calls the product break and prints the vendor total.
        525-Vendor-Break.
             PERFORM 550-Product-Break
             Set Vendor-Index to 1
@@ -557,7 +557,7 @@
             MOVE 2 to Proper-Spacing
             MOVE ZEROS to Vendor-Total
             .
-
+      * Prints the product total.
        550-Product-Break.
             MOVE Product-Hold to PTL-Name
             MOVE Prod-Total to PTL-Cost
@@ -567,7 +567,8 @@
             MOVE 3 to Proper-Spacing
             MOVE ZEROS to Prod-Total
             .
-
+      * Calls the warehouse break, prints the grand total, and displays
+      * the error total on the terminal.
        600-Print-Grand-Total.
            PERFORM 500-Warehouse-Break
            MOVE Grand-Total to GTL-Cost
