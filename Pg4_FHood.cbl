@@ -332,7 +332,7 @@
        200-Housekeeping.
            OPEN INPUT Merged-File
            OPEN OUTPUT Inventory-Report
-           OPEN OUTPUT Inventory-Errors
+           OPEN OUTPUT Error-File
            ACCEPT WS-Current-Date FROM DATE
            MOVE WS-Month TO H2-Month
            MOVE WS-Day TO H2-Day
@@ -358,9 +358,9 @@
       * Gets the vendor's full name by searching the table, writes 
       * the vendor heading.
        275-Print-Vendor.
-            MOVE 1 to Vendor-Index
+            Set Vendor-Index to 1
 
-            SEARCH Vendor-Table
+            SEARCH Vendor-Item
                 AT END
                     STRING 'INVALID' DELIMITED BY ' '
                                ' ' DELIMITED BY SIZE
@@ -453,7 +453,7 @@
 
                     PERFORM UNTIL Sub > 5
       * Validates that the input isn't blank
-                        IF MRD-Stock NOT = SPACES then
+                        IF MRD-Stock(Sub) NOT = SPACES then
       * Only prints the product name once for each product
                             IF Sub = 1 then
                                MOVE MRD-Name(Sub) to DL-Prod-Name
@@ -496,7 +496,7 @@
                             IF (MRD-Price(Sub) IS NUMERIC) then
                                 IF (MRD-Stock(Sub) IS NUMERIC) then
                                  MOVE MRD-Stock(Sub) to DL-Stock
-                                 COMPUTE T-T = MRD-Price(Sub) * MRD-Stock(Sub)
+                        COMPUTE T-T = MRD-Price(Sub) * MRD-Stock(Sub)
                                  MOVE T-T to DL-Cost
                                  ADD T-T to Grand-Total
                                  ADD T-T to WH-Total
@@ -538,9 +538,9 @@
 
        525-Vendor-Break.
             PERFORM 550-Product-Break
-            MOVE 1 to Vendor-Index
+            Set Vendor-Index to 1
 
-            SEARCH Vendor-Table
+            SEARCH Vendor-Item
                 AT END
                     STRING 'INVALID' DELIMITED BY ' '
                                ' ' DELIMITED BY SIZE
@@ -573,13 +573,13 @@
            MOVE Grand-Total to GTL-Cost
            WRITE Report-Line From Grand-Total-Line
                After Advancing Proper-Spacing
-            DISPLAY 'There were ' Error-Total 'error(s) in the input'
+            DISPLAY 'There were ' Error-Total ' error(s) in the input'
             .
                 
 
        1000-End-Function.
            CLOSE Merged-File
-           CLOSE Inventory-Errors
+           CLOSE Error-File
            CLOSE Inventory-Report
            STOP RUN 
            .

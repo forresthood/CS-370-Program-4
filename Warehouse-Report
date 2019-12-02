@@ -1,0 +1,251 @@
+                                   DR. CHEEB
+          12/01/2019            INVENTORY REPORT        PAGE: 01
+
+  WAREHOUSE: CA20
+
+     VENDOR: DENIO Corp.
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Rosemary Balm         Extra Large  Cream    021    $1,259.79
+                           Large        Cream    031    $1,239.69
+                           Medium       Cream    002      $205.98
+
+                     PRODUCT: C06           TOTAL:      $2,705.46
+
+
+             TOTAL FOR VENDOR: DENIO Corp.              $2,705.46
+
+     VENDOR: MadeInHouse
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Lavender Bud          Extra Large  Oil      011      $637.89
+                           Large        Oil      005      $109.95
+                           Medium       Oil      014      $139.86
+                           Small        Oil      101      $604.99
+                           Sample       Oil      021       $20.79
+
+                     PRODUCT: O03           TOTAL:      $1,513.48
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Peppermint            Extra Large  Oil      011      $637.89
+                           Large        Oil      005      $109.95
+                           Medium       Oil      014      $139.86
+                           Small        Oil      101      $604.99
+                           Sample       Oil      021       $20.79
+
+                     PRODUCT: O05           TOTAL:      $1,513.48
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Catnip Oil            Extra Large  Oil      020    $1,399.80
+                           Large        Oil      025    $1,249.75
+                           Medium       Oil      015      $449.85
+                           Small        Oil      125    $2,498.75
+                           Sample       Oil      005       $49.95
+
+                     PRODUCT: O06           TOTAL:      $5,648.10
+
+
+             TOTAL FOR VENDOR: MadeInHouse              $8,675.06
+
+     VENDOR: WEST Corp
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Candy Apple           Extra Large  Cream    012      $311.88
+                           Large        Cream    112    $1,790.88
+                           Medium       Cream    012      $119.88
+                           Small        Cream    212    $1,269.88
+                           Sample       Cream    012       $11.88
+
+                     PRODUCT: C07           TOTAL:      $3,504.40
+
+
+             TOTAL FOR VENDOR: WEST Corp                $3,504.40
+
+          TOTAL FOR WAREHOUSE: CA20                    $14,884.92                                   DR. CHEEB
+          12/01/2019            INVENTORY REPORT        PAGE: 02
+
+  WAREHOUSE: NV10
+
+     VENDOR: AMEL Ltd
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Vampire Blood         Extra Large  Cream    221   $19,003.79
+                           Large        Cream    021    $1,175.79
+                           Medium       Cream    081    $2,915.19
+                           Small        Cream    021      $335.79
+                           Sample       Cream    025      $149.75
+
+                     PRODUCT: C08           TOTAL:     $23,580.31
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Pollys Oil            Extra Large  Oil      025    $3,999.75
+                           Large        Oil      003      $479.97
+                           Medium       Oil      010    $1,599.90
+                           Small        Oil      010    $1,699.90
+                           Sample       Oil      020    $2,599.80
+
+                     PRODUCT: O02           TOTAL:     $10,379.32
+
+
+             TOTAL FOR VENDOR: AMEL Ltd                $33,959.63
+
+     VENDOR: MadeInHouse
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Cheebs Magic          Extra Large  Cream    015    $2,039.85
+                           Large        Cream    015    $1,439.85
+                           Medium       Cream    015      $839.85
+                           Small        Cream    010      $359.90
+                           Sample       Cream    215      $212.85
+
+                     PRODUCT: C05           TOTAL:      $4,892.30
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Lavender Bud          Extra Large  Oil      011      $637.89
+                           Large        Oil      005      $109.95
+                           Medium       Oil      014      $139.86
+                           Small        Oil      101      $604.99
+                           Sample       Oil      021       $20.79
+
+                     PRODUCT: O03           TOTAL:      $1,513.48
+
+
+             TOTAL FOR VENDOR: MadeInHouse              $6,405.78
+
+     VENDOR: WEST Corp
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Lucious Lemon         Extra Large  Cream    003      $377.97
+                           Large        Cream    033    $3,167.67
+                           Medium       Cream    003      $137.97
+                           Small        Cream    003       $77.97
+                           Sample       Cream    023      $206.77
+
+                     PRODUCT: C09           TOTAL:      $3,968.35
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Orange Magic          Extra Large  Oil      005      $429.95
+                           Large        Oil      002      $111.98
+                           Medium       Oil      124    $4,462.76
+                           Small        Oil      035      $559.65
+                           Sample       Oil      015       $89.85
+
+                     PRODUCT: O01           TOTAL:      $5,654.19
+
+
+             TOTAL FOR VENDOR: WEST Corp                $9,622.54
+
+     VENDOR: MadeInHouse
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Cheebs Magic          Extra Large  Cream    015    $2,039.85
+                           Large        Cream    015    $1,439.85
+                           Medium       Cream    015      $839.85
+                           Small        Cream    010      $359.90
+                           Sample       Cream    215      $212.85
+
+                     PRODUCT: C05           TOTAL:      $4,892.30
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Lavender Bud          Extra Large  Oil      011      $637.89
+                           Large        Oil      005      $109.95
+                           Medium       Oil      014      $139.86
+                           Small        Oil      101      $604.99
+                           Sample       Oil      021       $20.79
+
+                     PRODUCT: O03           TOTAL:      $1,513.48
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Catnip Oil            Extra Large  Oil      020    $1,399.80
+                           Large        Oil      025    $1,249.75
+                           Medium       Oil      015      $449.85
+                           Small        Oil      125    $2,498.75
+                           Sample       Oil      005       $49.95
+
+                     PRODUCT: O06           TOTAL:      $5,648.10
+
+
+             TOTAL FOR VENDOR: MadeInHouse             $12,053.88
+
+     VENDOR: VISSON Corp.
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     RoseMilk Balm         Extra Large  Cream    221   $19,003.79
+                           Large        Cream    021    $1,175.79
+                           Medium       Cream    081    $2,915.19
+                           Small        Cream    021      $335.79
+                           Sample       Cream    025      $149.75
+
+                     PRODUCT: C02           TOTAL:     $23,580.31
+
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Fairy DewDrop         Extra Large  Oil      005      $429.95
+                           Large        Oil      002      $111.98
+                           Medium       Oil      124    $4,462.76
+                           Small        Oil      035      $559.65
+                           Sample       Oil      015       $89.85
+
+                     PRODUCT: O04           TOTAL:      $5,654.19
+
+
+             TOTAL FOR VENDOR: VISSON Corp.            $29,234.50
+
+     VENDOR: WEST Corp
+
+        PRODUCT       PROD    PRODUCT    PROD    IN       TOTAL
+          NAME         ID      SIZE      TYPE   STOCK     COST
+
+     Elf Jam               Extra Large  Cream    003      $377.97
+                           Large        Cream    033    $3,167.67
+                           Medium       Cream    003      $137.97
+                           Small        Cream    003       $77.97
+                           Sample       Cream    023      $206.77
+
+                     PRODUCT: C04           TOTAL:      $3,968.35
+
+
+             TOTAL FOR VENDOR: WEST Corp                $3,968.35
+
+          TOTAL FOR WAREHOUSE: WA30                    $95,244.68
+
+                      GRAND TOTAL COST:               $110,129.60
